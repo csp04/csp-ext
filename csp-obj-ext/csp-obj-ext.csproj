@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;netcoreapp2.0</TargetFrameworks>
     <RootNamespace>csp_obj_ext</RootNamespace>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Csp Projects, Inc.</Authors>
+    <Company>Csp Projects, Inc.</Company>
+    <Product>csp-obj-ext</Product>
+    <Copyright>Copyright 2019</Copyright>
+    <Description>Object Extension Methods</Description>
+    <RepositoryUrl>https://github.com/csp04/csp-ext</RepositoryUrl>
+    <PackageTags>object-extension-methods</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
