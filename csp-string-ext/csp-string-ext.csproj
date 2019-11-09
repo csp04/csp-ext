@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;netcoreapp2.0</TargetFrameworks>
     <RootNamespace>csp_string_ext</RootNamespace>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <Version>1.0.3</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Csp Projects, Inc.</Authors>
+    <Company>Csp Projects, Inc.</Company>
+    <Product>csp-string-ext</Product>
+    <Copyright>Copyright 2019</Copyright>
+    <Description>String Extension Methods</Description>
+    <RepositoryUrl>https://github.com/csp04/csp-ext</RepositoryUrl>
+    <PackageTags>string-extension-methods</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
