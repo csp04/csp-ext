@@ -11,6 +11,7 @@ namespace Csp.Extensions
         public static bool IsNotNull(this object @this) => !@this.IsNull();
         public static object ToObject(this object @this) => @this;
         public static T CastTo<T>(this object @this) => (T)@this;
+        public static object To(this object @this, Type changeType) => Convert.ChangeType(@this, changeType);
         public static bool Between<T>(this T @this, T minValue, T maxValue) where T : IComparable<T> => minValue.CompareTo(@this) == -1 && @this.CompareTo(maxValue) == -1;
         public static bool InRange<T>(this T @this, T minValue, T maxValue) where T : IComparable<T> => @this.CompareTo(minValue) >= 0 && @this.CompareTo(maxValue) <= 0;
 
