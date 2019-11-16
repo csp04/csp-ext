@@ -18,13 +18,50 @@ namespace Csp.Extensions
                     cmd.AddParameters(values);
                 }
 
-                return cmd.ExecuteReader().ToEntities<T>();
+                using(var reader = cmd.ExecuteReader())
+                {
+                    return reader.ToEntities<T>();
+                }
             }
         }
 
         public static IEnumerable<T> Query<T>(this IDbConnection @this, string sql, CommandType commandType) where T : new()
         {
             return @this.Query<T>(sql, commandType, null);
+        }
+
+        public static IEnumerable<T> Query<T>(this IDbConnection @this, string sql) where T : new()
+        {
+            return @this.Query<T>(sql, CommandType.Text);
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>> Query(this IDbConnection @this, string sql, CommandType commandType, Dictionary<string, object> values)
+        {
+            using (var cmd = @this.CreateCommand())
+            {
+                cmd.CommandText = sql;
+                cmd.CommandType = commandType;
+
+                if (values != null)
+                {
+                    cmd.AddParameters(values);
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    return reader.ToNameValueLists();
+                }
+            }
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>> Query(this IDbConnection @this, string sql, CommandType commandType)
+        {
+            return @this.Query(sql, commandType, null);
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>> Query(this IDbConnection @this, string sql)
+        {
+            return @this.Query(sql, CommandType.Text);
         }
 
         public static int Execute(this IDbConnection @this, string sql, CommandType commandType, IDictionary<string, object> values)
@@ -86,6 +123,33 @@ namespace Csp.Extensions
             using (@this._Open())
             {
                 return @this.Query<T>(sql, commandType);
+            }
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>> 
+            OpenQuery(this IDbConnection @this, string sql, CommandType commandType, Dictionary<string, object> values)
+        {
+            using(@this._Open())
+            {
+                return @this.Query(sql, commandType, values);
+            }
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>>
+            OpenQuery(this IDbConnection @this, string sql, CommandType commandType)
+        {
+            using (@this._Open())
+            {
+                return @this.Query(sql, commandType);
+            }
+        }
+
+        public static IEnumerable<IEnumerable<(string name, object value)>>
+            OpenQuery(this IDbConnection @this, string sql)
+        {
+            using (@this._Open())
+            {
+                return @this.Query(sql, CommandType.Text);
             }
         }
 

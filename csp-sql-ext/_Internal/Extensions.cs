@@ -80,6 +80,25 @@ namespace Csp.Extensions
             return list;
         }
 
+        internal static IEnumerable<(string name, object value)> ToNameValueList(this IDataReader @this)
+        {
+            return Enumerable.Range(0, @this.FieldCount)
+                .Select(@this.GetName)
+                .Select(name =>
+                {
+                    var value = @this[name];
+                    return (name, value == DBNull.Value ? null : value);
+                }).ToList();
+        }
+
+        internal static IEnumerable<IEnumerable<(string name, object value)>> ToNameValueLists(this IDataReader @this)
+        {
+            var list = new List<IEnumerable<(string name, object value)>>();
+            while (@this.Read())
+                list.Add(@this.ToNameValueList());
+            return list;
+        }
+
         internal static void AddParameters(this IDbCommand @this, IDictionary<string, object> values)
         {
             foreach (var kvp in values)
