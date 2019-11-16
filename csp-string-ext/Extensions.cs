@@ -24,5 +24,19 @@ namespace Csp.Extensions
 
         public static string Capitalize(this string @this) => @this.IsNullOrEmpty() ? @this :
                 @this.Substring(0, 1).ToUpper(CultureInfo.CurrentCulture) + (@this.Length > 1 ? @this.Substring(1).ToLower(CultureInfo.CurrentCulture) : string.Empty);
+   
+        public static string SubStringBefore(this string @this, string search)
+        {
+            var index = @this.IndexOf(search);
+
+            return index < 0 ? @this : @this.Substring(0, index);
+        }
+
+        public static string SubstringAfter(this string @this, string search)
+        {
+            var index = @this.IndexOf(search);
+
+            return index < 0 ? @this : @this.Substring(index + 1, @this.Length - (index + 1));
+        }
     }
 }
