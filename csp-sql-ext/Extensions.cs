@@ -1,43 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection;
 
-namespace Csp.Extensions.Sql
+namespace Csp.Extensions
 {
     public static partial class Extensions
     {
-        public static T ToEntity<T>(this IDataReader @this) where T : new()
-    {
-        Type type = typeof(T);
-        PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-        var entity = new T();
-
-        var hash = new HashSet<string>(Enumerable.Range(0, @this.FieldCount)
-            .Select(@this.GetName));
-
-        foreach (PropertyInfo property in properties)
+        public static IEnumerable<T> Query<T>(this IDbConnection @this, string sql, CommandType commandType, Dictionary<string, object> values) where T : new()
         {
-            if (hash.Contains(property.Name))
+            using (var cmd = @this.CreateCommand())
             {
-                Type valueType = property.PropertyType;
-                property.SetValue(entity, @this[property.Name].To(valueType), null);
+                cmd.CommandText = sql;
+                cmd.CommandType = commandType;
+
+                if (values != null)
+                {
+                    cmd.AddParameters(values);
+                }
+
+                return cmd.ExecuteReader().ToEntities<T>();
             }
         }
 
-        foreach (FieldInfo field in fields)
+        public static IEnumerable<T> Query<T>(this IDbConnection @this, string sql, CommandType commandType) where T : new()
         {
-            if (hash.Contains(field.Name))
+            return @this.Query<T>(sql, commandType, null);
+        }
+
+        public static int Execute(this IDbConnection @this, string sql, CommandType commandType, IDictionary<string, object> values)
+        {
+            using (var cmd = @this.CreateCommand())
             {
-                Type valueType = field.FieldType;
-                field.SetValue(entity, @this[field.Name].To(valueType));
+                cmd.CommandText = sql;
+                cmd.CommandType = commandType;
+
+                if (values != null)
+                {
+                    cmd.AddParameters(values);
+                }
+
+                return cmd.ExecuteNonQuery();
             }
         }
 
-        return entity;
+        public static void BeginTransactions<T>(this IDbConnection @this,
+                                                  String sql,
+                                                  CommandType commandType,
+                                                  IEnumerable<T> entities,
+                                                  Action<int> commit,
+                                                  Action<Exception> rollback)
+        {
+            using (var transaction = @this.BeginTransaction())
+            {
+                try
+                {
+                    int rowsAffected = 0;
+                    foreach (var entity in entities)
+                    {
+                        var parms = entity.AsParameters();
+                        rowsAffected += @this.Execute(sql, commandType, parms);
+                    }
+                    transaction.Commit();
+                    commit?.Invoke(rowsAffected);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    rollback?.Invoke(ex);
+                }
+            }
+        }
+
+        
+        public static IEnumerable<T> OpenQuery<T>(this IDbConnection @this, string sql, CommandType commandType, Dictionary<string, object> values) where T : new()
+        {
+            
+            using(@this._Open())
+            {
+                return @this.Query<T>(sql, commandType, values);
+            }
+        }
+
+        public static IEnumerable<T> OpenQuery<T>(this IDbConnection @this, string sql, CommandType commandType) where T : new()
+        {
+            using (@this._Open())
+            {
+                return @this.Query<T>(sql, commandType);
+            }
+        }
+
+        public static int OpenExecute(this IDbConnection @this, string sql, CommandType commandType, IDictionary<string, object> values)
+        {
+            using(@this._Open())
+            {
+                return @this.Execute(sql, commandType, values);
+            }
+        }
+
+        public static void OpenBeginTransactions<T>(this IDbConnection @this,
+                                                  String sql,
+                                                  CommandType commandType,
+                                                  IEnumerable<T> entities,
+                                                  Action<int> commit,
+                                                  Action<Exception> rollback)
+        {
+            using (@this._Open())
+            {
+                @this.BeginTransactions<T>(sql, commandType, entities, commit, rollback);
+            }
+        }
     }
-}
 }

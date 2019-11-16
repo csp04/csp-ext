@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Csp.Extensions
 {
@@ -187,6 +186,19 @@ namespace Csp.Extensions
             {
                 fn(item, index++);
             }
+        }
+
+        public static void Each<TKey, TValue>(this IDictionary<TKey, TValue> items, Action<TKey, TValue> fn)
+        {
+            foreach (var kvp in items)
+                fn(kvp.Key, kvp.Value);
+        }
+
+        public static void Each<TKey, TValue>(this IDictionary<TKey, TValue> items, Action<TKey, TValue, int> fn)
+        {
+            int index = 0;
+            foreach (var kvp in items)
+                fn(kvp.Key, kvp.Value, index++);
         }
         #endregion
 

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net40;netcoreapp2.0</TargetFrameworks>
+    <RootNamespace>csp_sql_ext</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\csp-obj-ext\csp-obj-ext.csproj" />
+  </ItemGroup>
+
+</Project>

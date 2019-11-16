@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Csp.Extensions
 {
@@ -25,7 +24,7 @@ namespace Csp.Extensions
 
         public static string Capitalize(this string @this) => @this.IsNullOrEmpty() ? @this :
                 @this.Substring(0, 1).ToUpper(CultureInfo.CurrentCulture) + (@this.Length > 1 ? @this.Substring(1).ToLower(CultureInfo.CurrentCulture) : string.Empty);
-   
+
         public static string SubStringBefore(this string @this, string search)
         {
             var index = @this.IndexOf(search);
@@ -46,6 +45,6 @@ namespace Csp.Extensions
             Array.Reverse(charArray);
             return new string(charArray);
         }
-    
+
     }
 }
