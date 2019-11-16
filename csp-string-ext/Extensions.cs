@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Csp.Extensions
 {
@@ -38,5 +39,13 @@ namespace Csp.Extensions
 
             return index < 0 ? @this : @this.Substring(index + 1, @this.Length - (index + 1));
         }
+
+        public static string Reverse(this string @this)
+        {
+            char[] charArray = @this.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+    
     }
 }
