@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>csp_sql_promise_ext</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RSG.Promise" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\csp-rsg-promise-ext\csp-rsg-promise-ext.csproj" />
+    <ProjectReference Include="..\csp-sql-ext\csp-sql-ext.csproj" />
+  </ItemGroup>
+
+</Project>

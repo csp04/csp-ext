@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Csp.Extensions
 {
-    public static partial class Extensions
+    public static partial class SqlExtensions
     {
         public static IEnumerable<T> Query<T>(this IDbConnection @this, string sql, CommandType commandType, Dictionary<string, object> values) where T : new()
         {
@@ -80,30 +80,57 @@ namespace Csp.Extensions
             }
         }
 
+        public static int Execute(this IDbConnection @this, string sql, CommandType commandType)
+        {
+            return @this.Execute(sql, commandType, null);
+        }
+
+        public static int Execute(this IDbConnection @this, string sql)
+        {
+            return @this.Execute(sql, CommandType.Text, null);
+        }
+
         public static void BeginTransactions<T>(this IDbConnection @this,
                                                   String sql,
                                                   CommandType commandType,
                                                   IEnumerable<T> entities,
-                                                  Action<int> commit,
-                                                  Action<Exception> rollback)
+                                                  Action<T, int> progress,
+                                                  Action<int> committed,
+                                                  Action<Exception> rollbacked)
         {
             using (var transaction = @this.BeginTransaction())
             {
+                bool completed = false;
+                int rowsAffected = 0;
+                Exception _ex = default;
                 try
                 {
-                    int rowsAffected = 0;
+                    
+                    int cnt = 0;
                     foreach (var entity in entities)
                     {
                         var parms = entity.AsParameters();
                         rowsAffected += @this.Execute(sql, commandType, parms);
+                        progress?.Invoke(entity, ++cnt);
                     }
                     transaction.Commit();
-                    commit?.Invoke(rowsAffected);
+                    completed = true;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    rollback?.Invoke(ex);
+                    _ex = ex;
+                }
+                finally
+                {
+                    if(completed)
+                    {
+                        committed?.Invoke(rowsAffected);
+                    }
+                    else
+                    {
+                        rollbacked?.Invoke(_ex);
+                    }
                 }
             }
         }
@@ -161,16 +188,33 @@ namespace Csp.Extensions
             }
         }
 
+        public static int OpenExecute(this IDbConnection @this, string sql, CommandType commandType)
+        {
+            using (@this._Open())
+            {
+                return @this.Execute(sql, commandType);
+            }
+        }
+
+        public static int OpenExecute(this IDbConnection @this, string sql)
+        {
+            using (@this._Open())
+            {
+                return @this.Execute(sql);
+            }
+        }
+
         public static void OpenBeginTransactions<T>(this IDbConnection @this,
                                                   String sql,
                                                   CommandType commandType,
                                                   IEnumerable<T> entities,
-                                                  Action<int> commit,
-                                                  Action<Exception> rollback)
+                                                  Action<T, int> progress,
+                                                  Action<int> committed,
+                                                  Action<Exception> rollbacked)
         {
             using (@this._Open())
             {
-                @this.BeginTransactions<T>(sql, commandType, entities, commit, rollback);
+                @this.BeginTransactions<T>(sql, commandType, entities, progress, committed, rollbacked);
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Csp.Extensions
 {
-    public static partial class Extensions
+    internal static partial class SqlInternalExtensions
     {
         #region Internals
         internal static T ToEntity<T>(this IDataReader @this) where T : new()
