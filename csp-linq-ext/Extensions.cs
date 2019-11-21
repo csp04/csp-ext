@@ -202,48 +202,127 @@ namespace Csp.Extensions
         }
         #endregion
 
+   
+
         #region Get
+
+        public static IEnumerable<T> GetIf<T>(this IEnumerable @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if(condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this IQueryable @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this IList @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this ICollection @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this Array @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this ArrayList @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
+
+        public static IEnumerable<T> GetIf<T>(this Hashtable @this, Func<T, bool> condition)
+        {
+            foreach (var item in @this)
+                if (item is T _this)
+                {
+                    if (condition != null && condition(_this))
+                    {
+                        yield return _this;
+                    }
+                }
+        }
 
         public static IEnumerable<T> Get<T>(this IEnumerable @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this IQueryable @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this IList @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this ICollection @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this Array @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this ArrayList @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         public static IEnumerable<T> Get<T>(this Hashtable @this)
         {
-            foreach (var item in @this)
-                if (item is T _this) yield return _this;
+            return @this.GetIf<T>(null);
         }
 
         #endregion
