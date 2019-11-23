@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Csp.Extensions
 {
@@ -46,5 +47,9 @@ namespace Csp.Extensions
             return new string(charArray);
         }
 
+        public static StringBuilder AsStringBuilder(this string @this)
+        {
+            return new StringBuilder(@this);
+        }
     }
 }
