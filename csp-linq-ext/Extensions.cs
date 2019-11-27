@@ -292,37 +292,37 @@ namespace Csp.Extensions
 
         public static IEnumerable<T> Get<T>(this IEnumerable @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this IQueryable @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this IList @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this ICollection @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this Array @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this ArrayList @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         public static IEnumerable<T> Get<T>(this Hashtable @this)
         {
-            return @this.GetIf<T>(null);
+            return @this.GetIf<T>(x => true);
         }
 
         #endregion
