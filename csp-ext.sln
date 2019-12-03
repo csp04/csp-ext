@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-obj-ext", "csp-obj-ext\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-string-ext", "csp-string-ext\csp-string-ext.csproj", "{056B4CF7-B907-4A54-83DD-2A8FFB51FD6A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-linq-ext", "csp-linq-ext\csp-linq-ext.csproj", "{EA613A03-1B3A-4709-B313-895953477E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-col-gen-ext", "csp-linq-ext\csp-col-gen-ext.csproj", "{EA613A03-1B3A-4709-B313-895953477E63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-sql-ext", "csp-sql-ext\csp-sql-ext.csproj", "{0D48F0E6-64D1-4E7E-BB92-8A89AAAE4FEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-rsg-promise-ext", "csp-rsg-promise-ext\csp-rsg-promise-ext.csproj", "{E06D1E13-9E59-46AF-B595-83D9B020CD42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csp-sql-promise-ext", "csp-sql-promise-ext\csp-sql-promise-ext.csproj", "{3BAE6C04-E31B-4483-B719-E0D980B94008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csp-sql-promise-ext", "csp-sql-promise-ext\csp-sql-promise-ext.csproj", "{3BAE6C04-E31B-4483-B719-E0D980B94008}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;netcoreapp2.0</TargetFrameworks>
-    <RootNamespace>csp_linq_ext</RootNamespace>
+    <RootNamespace>csp_col_gen_ext</RootNamespace>
   </PropertyGroup>
 
 </Project>
