@@ -261,15 +261,6 @@ namespace Csp.Extensions
                 }
         }
 
-        public static IEnumerable<T> Get<T>(this Hashtable @this)
-        {
-            foreach (var item in @this)
-                if (item is T _this)
-                {
-                    yield return _this;
-                }
-        }
-
 
         public static IEnumerable<T> Get<T>(this IEnumerable @this, Func<T, bool> condition)
         {
@@ -297,11 +288,6 @@ namespace Csp.Extensions
         }
 
         public static IEnumerable<T> Get<T>(this ArrayList @this, Func<T, bool> condition)
-        {
-            return @this.Get<T>().Where(condition);
-        }
-
-        public static IEnumerable<T> Get<T>(this Hashtable @this, Func<T, bool> condition)
         {
             return @this.Get<T>().Where(condition);
         }
