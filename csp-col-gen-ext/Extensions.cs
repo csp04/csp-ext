@@ -20,13 +20,7 @@ namespace Csp.Extensions
 
         public static void Each<T>(this IEnumerable items, Action<T> fn)
         {
-            foreach (var item in items)
-            {
-                if (item is T converted)
-                    fn(converted);
-                else
-                    throw new Exception($"Cannot convert {item.GetType().FullName} to {typeof(T).GetType().FullName}.");
-            }
+            items.OfType<T>().Each(fn);
         }
 
         public static void Each<T>(this IEnumerable<T> items, Action<T> fn)
@@ -65,13 +59,7 @@ namespace Csp.Extensions
 
         public static void Each<T>(this IQueryable items, Action<T> fn)
         {
-            foreach (var item in items)
-            {
-                if (item is T converted)
-                    fn(converted);
-                else
-                    throw new Exception($"Cannot convert {item.GetType().FullName} to {typeof(T).GetType().FullName}.");
-            }
+            items.OfType<T>().Each(fn);
         }
 
         public static void Each<T>(this IQueryable<T> items, Action<T> fn)
@@ -110,13 +98,7 @@ namespace Csp.Extensions
 
         public static void Each<T>(this IList items, Action<T> fn)
         {
-            foreach (var item in items)
-            {
-                if (item is T converted)
-                    fn(converted);
-                else
-                    throw new Exception($"Cannot convert {item.GetType().FullName} to {typeof(T).GetType().FullName}.");
-            }
+            items.OfType<T>().Each(fn);
         }
 
         public static void Each<T>(this IList<T> items, Action<T> fn)
@@ -155,13 +137,7 @@ namespace Csp.Extensions
 
         public static void Each<T>(this ICollection items, Action<T> fn)
         {
-            foreach (var item in items)
-            {
-                if (item is T converted)
-                    fn(converted);
-                else
-                    throw new Exception($"Cannot convert {item.GetType().FullName} to {typeof(T).GetType().FullName}.");
-            }
+            items.OfType<T>().Each(fn);
         }
 
         public static void Each<T>(this ICollection<T> items, Action<T> fn)
